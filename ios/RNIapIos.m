@@ -144,6 +144,7 @@ RCT_EXPORT_METHOD(getAvailableItems:(RCTPromiseResolveBlock)resolve
 
 RCT_EXPORT_METHOD(buyProduct:(NSString*)sku
                   andDangerouslyFinishTransactionAutomatically:(BOOL)finishAutomatically
+                  iosUserId:(NSString*)usernameHash
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject) {
     pendingTransactionWithAutoFinish = finishAutomatically;
@@ -161,6 +162,7 @@ RCT_EXPORT_METHOD(buyProduct:(NSString*)sku
         [self addPromiseForKey:key resolve:resolve reject:reject];
             
         SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+        payment.applicationUsername = usernameHash;
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     } else {
         if (hasListeners) {
