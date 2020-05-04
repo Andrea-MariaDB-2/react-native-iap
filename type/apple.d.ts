@@ -125,52 +125,52 @@ export enum ReceiptValidationStatus {
 
 export enum SubscriptionExpirationIntent {
   /** Customer canceled their subscription. **/
-  CUSTOMER_CANCELED = '1',
+  CUSTOMER_CANCELED = "1",
   /** Billing error; for example customer’s payment information was no longer valid. **/
-  BILLING_ERROR = '2',
+  BILLING_ERROR = "2",
   /** Customer did not agree to a recent price increase. **/
-  DENIED_PRICE_INCREASE = '3',
+  DENIED_PRICE_INCREASE = "3",
   /** Product was not available for purchase at the time of renewal. **/
-  PRODUCT_NOT_AVAILABLE = '4',
+  PRODUCT_NOT_AVAILABLE = "4",
   /** Unknown error. **/
-  UNKNOWN_ERROR = '5',
+  UNKNOWN_ERROR = "5",
 }
 
 export enum SubscriptionRetryFlag {
   /** App Store is still attempting to renew the subscription. */
-  ACTIVE = '1',
+  ACTIVE = "1",
   /** App Store has stopped attempting to renew the subscription. */
-  STOPPED = '0',
+  STOPPED = "0",
 }
 
 export enum CancellationReason {
   /** Customer canceled their transaction due to an actual or perceived issue within your app. */
-  ACTUAL_ISSUE = '1',
+  ACTUAL_ISSUE = "1",
   /** Transaction was canceled for another reason, for example, if the customer made the purchase accidentally. */
-  OTHER_REASON = '0',
+  OTHER_REASON = "0",
 }
 
 export enum SubscriptionAutoRenewStatus {
   /** Subscription will renew at the end of the current subscription period. */
-  ACTIVE = '1',
+  ACTIVE = "1",
   /** Customer has turned off automatic renewal for their subscription. */
-  STOPPED = '0',
+  STOPPED = "0",
 }
 
 export enum SubscriptionPriceConsentStatus {
   /** Customer has agreed to the price increase. Subscription will renew at the higher price. */
-  AGREED = '1',
+  AGREED = "1",
   /** Customer has not taken action regarding the increased price. Subscription expires if the customer takes no action before the renewal date. */
-  NO_ACTION = '0',
+  NO_ACTION = "0",
 }
 
 export interface ReceiptValidationRequest {
   /** The base64 encoded receipt data. */
-  'receipt-data': string;
+  "receipt-data": string;
   /** *Only used for receipts that contain auto-renewable subscriptions.* Your app’s shared secret (a hexadecimal string). */
   password?: string;
   /** *Only used for iOS7 style app receipts that contain auto-renewable or non-renewing subscriptions.* If value is true, response includes only the latest renewal transaction for any subscriptions. */
-  'exclude-old-transactions'?: boolean;
+  "exclude-old-transactions"?: boolean;
 }
 
 export interface ReceiptValidationResponse {
@@ -360,7 +360,7 @@ export interface IAPReceipt {
    *
    * **Note:** If a previous subscription period in the receipt has the value “true” for either the `is_trial_period` or the `is_in_intro_offer_period` key, the user is not eligible for a free trial or introductory price within that subscription group.
    */
-  is_trial_period?: 'true' | 'false';
+  is_trial_period?: "true" | "false";
 
   /**
    * For an auto-renewable subscription, whether or not it is in the introductory price period.
@@ -369,7 +369,7 @@ export interface IAPReceipt {
    *
    * **Note:** If a previous subscription period in the receipt has the value “true” for either the `is_trial_period` or the `is_in_intro_offer_period` key, the user is not eligible for a free trial or introductory price within that subscription group.
    */
-  is_in_intro_offer_period?: 'true' | 'false';
+  is_in_intro_offer_period?: "true" | "false";
 
   /**
    * For a transaction that was canceled by Apple customer support, the time and date of the cancellation. For an auto-renewable subscription plan that was upgraded, the time and date of the upgrade transaction. Interpreted as an RFC 3339 date.
