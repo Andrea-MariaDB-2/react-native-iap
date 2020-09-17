@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dooboolab/react-native-iap"
+    "url": "git+https://github.com/curefit/react-native-iap.git"
   },
   "keywords": [
     "react-native",

@@ -34,7 +34,7 @@ export enum IAPErrorCode {
   E_ALREADY_OWNED = 'E_ALREADY_OWNED',
   E_DEVELOPER_ERROR = 'E_DEVELOPER_ERROR',
   E_BILLING_RESPONSE_JSON_PARSE_ERROR = 'E_BILLING_RESPONSE_JSON_PARSE_ERROR',
-  E_DEFERRED_PAYMENT = 'E_DEFERRED_PAYMENT',
+  E_DEFERRED_PAYMENT = 'E_DEFERRED_PAYMENT'
 }
 
 export enum ProrationModesAndroid {
@@ -54,6 +54,7 @@ export interface Discount {
   paymentMode: string;
   subscriptionPeriod: string;
 }
+
 
 export interface Product<ProductId extends string = string> extends Common {
   type: 'inapp' | 'iap';
@@ -733,6 +734,7 @@ export const purchaseErrorListener = (
  * Get the current receipt base64 encoded in IOS.
  * @returns {Promise<string>}
  */
+
 export const getReceiptIOS = async (): Promise<string> => {
   if (Platform.OS === 'ios') {
     await checkNativeiOSAvailable();
@@ -744,6 +746,7 @@ export const getReceiptIOS = async (): Promise<string> => {
  * Get the pending purchases in IOS.
  * @returns {Promise<ProductPurchase[]>}
  */
+
 export const getPendingPurchasesIOS = async (): Promise<ProductPurchase[]> => {
   if (Platform.OS === 'ios') {
     await checkNativeiOSAvailable();
