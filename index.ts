@@ -1,4 +1,4 @@
-import * as Apple from "./type/apple";
+import * as Apple from './type/apple';
 
 import {
   DeviceEventEmitter,
@@ -6,7 +6,7 @@ import {
   NativeEventEmitter,
   NativeModules,
   Platform,
-} from "react-native";
+} from 'react-native';
 
 const { RNIapIos, RNIapModule } = NativeModules;
 
@@ -62,7 +62,7 @@ export interface Product<ProductId extends string = string> extends Common {
 }
 
 export interface Subscription extends Common {
-  type: "subs" | "sub";
+  type: 'subs' | 'sub';
   productId: string;
 
   discounts?: Discount[];
@@ -127,9 +127,9 @@ export interface SubscriptionPurchase extends ProductPurchase {
 
 export type Purchase = InAppPurchase | SubscriptionPurchase;
 
-const ANDROID_ITEM_TYPE_SUBSCRIPTION = "subs";
-const ANDROID_ITEM_TYPE_IAP = "inapp";
-export const PROMOTED_PRODUCT = "iap-promoted-product";
+const ANDROID_ITEM_TYPE_SUBSCRIPTION = 'subs';
+const ANDROID_ITEM_TYPE_IAP = 'inapp';
+export const PROMOTED_PRODUCT = 'iap-promoted-product';
 
 function checkNativeAndroidAvailable(): Promise<void> {
   if (!RNIapModule) {
@@ -170,14 +170,14 @@ export const endConnection = (): Promise<void> =>
   Platform.select({
     ios: async () => {
       if (!RNIapIos) {
-        console.warn("Native ios module does not exists");
+        console.warn('Native ios module does not exists');
         return Promise.resolve();
       }
       return RNIapIos.endConnection();
     },
     android: async () => {
       if (!RNIapModule) {
-        console.warn("Native ios module does not exists");
+        console.warn('Native ios module does not exists');
         return Promise.resolve();
       }
       return RNIapModule.endConnection();
@@ -362,7 +362,7 @@ export const requestPurchase = (
       return RNIapIos.buyProduct(
         sku,
         andDangerouslyFinishTransactionAutomaticallyIOS,
-        iosUserId
+        iosUserId,
       );
     },
     android: async () => {
@@ -373,7 +373,7 @@ export const requestPurchase = (
         null,
         0,
         developerIdAndroid,
-        accountIdAndroid
+        accountIdAndroid,
       );
     },
   })();
@@ -495,10 +495,10 @@ export const finishTransaction = (
             developerPayloadAndroid
           );
         } else {
-          throw new Error("purchase is not suitable to be purchased");
+          throw new Error('purchase is not suitable to be purchased');
         }
       } else {
-        throw new Error("purchase is not assigned");
+        throw new Error('purchase is not assigned');
       }
     },
   })();
@@ -636,14 +636,14 @@ export const validateReceiptIos = async (
   isTest?: boolean
 ): Promise<Apple.ReceiptValidationResponse | false> => {
   const url = isTest
-    ? "https://sandbox.itunes.apple.com/verifyReceipt"
-    : "https://buy.itunes.apple.com/verifyReceipt";
+    ? 'https://sandbox.itunes.apple.com/verifyReceipt'
+    : 'https://buy.itunes.apple.com/verifyReceipt';
 
   const response = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: new Headers({
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     }),
     body: JSON.stringify(receiptBody),
   });
@@ -675,13 +675,13 @@ export const validateReceiptAndroid = async (
 ): Promise<Record<string, unknown> | false> => {
   const type = isSub ? 'subscriptions' : 'products';
   const url =
-    "https://www.googleapis.com/androidpublisher/v3/applications" +
+    'https://www.googleapis.com/androidpublisher/v3/applications' +
     `/${packageName}/purchases/${type}/${productId}` +
     `/tokens/${productToken}?access_token=${accessToken}`;
 
   const response = await fetch(url, {
-    method: "GET",
-    headers: new Headers({ Accept: "application/json" }),
+    method: 'GET',
+    headers: new Headers({ Accept: 'application/json' }),
   });
 
   if (!response.ok) {
@@ -700,7 +700,7 @@ export const validateReceiptAndroid = async (
 export const purchaseUpdatedListener = (
   listener: (event: InAppPurchase | SubscriptionPurchase) => void
 ): EmitterSubscription => {
-  if (Platform.OS === "ios") {
+  if (Platform.OS === 'ios') {
     checkNativeiOSAvailable();
     const myModuleEvt = new NativeEventEmitter(RNIapIos);
     return myModuleEvt.addListener('purchase-updated', listener);
@@ -721,7 +721,7 @@ export const purchaseUpdatedListener = (
 export const purchaseErrorListener = (
   listener: (errorEvent: PurchaseError) => void
 ): EmitterSubscription => {
-  if (Platform.OS === "ios") {
+  if (Platform.OS === 'ios') {
     checkNativeiOSAvailable();
     const myModuleEvt = new NativeEventEmitter(RNIapIos);
     return myModuleEvt.addListener('purchase-error', listener);
