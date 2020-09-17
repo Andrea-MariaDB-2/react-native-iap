@@ -1,10 +1,40 @@
 ## Changelogs
 
+- **[4.6.0]**
+  - Upgrade android billing sdk to 3 [#1112](https://github.com/dooboolab/react-native-iap/pull/1112)
+    * `developerIdAndroid` and `accountIdAndroid` params are removed.
+
+- **[4.5.4]**
+  - Fix & avoid blindly consuming success purchases [#1085](https://github.com/dooboolab/react-native-iap/pull/1085)
+  - Allow specyfing string subtype for product ids [#1089](https://github.com/dooboolab/react-native-iap/pull/1089)
+  - Let user know which productId was the error about [#1100](https://github.com/dooboolab/react-native-iap/pull/1100)
+  - Be more specific in purchaseErrorListener param typing [#1101](https://github.com/dooboolab/react-native-iap/pull/1101)
+
+
+- **[4.5.3]**
+  - Ability to know when a SKPaymentTransactionStateDeferred purchase update occurs [#1080](https://github.com/dooboolab/react-native-iap/issues/1080).
+
+- **[4.5.2]**
+  - Fix promise not resolving on `ios14` [#1064](https://github.com/dooboolab/react-native-iap/pull/1064).
+
+- **[4.5.0]**
+  - Fix iap-promoted-product listener [#1039](https://github.com/dooboolab/react-native-iap/pull/1039)
+
+- **[4.4.11]**
+  - Fix regresion in `4.4.10`
+
+- **[4.4.10]**
+  - Fix iOS discount issue [#1038](https://github.com/dooboolab/react-native-iap/pull/1038)
+  - Fix return type of `getPromotedProductIOS` [#1037](https://github.com/dooboolab/react-native-iap/pull/1037)
+
+- **[4.4.9]**
+  - Upgrade packages and expose `ProductPurchase` type.
+
 - **[4.4.8]**
-  Fixes [#989](https://github.com/dooboolab/react-native-iap/issues/989).
+  - Fixes [#989](https://github.com/dooboolab/react-native-iap/issues/989).
 
 - **[4.4.7]**
-  Fix regression. Revert `andDangerouslyFinishTransactionAutomaticallyIOS` to false. This should actually be false in default.
+  - Fix regression. Revert `andDangerouslyFinishTransactionAutomaticallyIOS` to false. This should actually be false in default.
 
 - **[4.4.6]**
   `andDangerouslyFinishTransactionAutomaticallyIOS` was set to true for default. I should be false.
