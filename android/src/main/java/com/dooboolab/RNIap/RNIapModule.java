@@ -20,7 +20,6 @@ import com.facebook.react.bridge.ObjectAlreadyConsumedException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -248,7 +247,7 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
           promise.resolve(false);
           return;
         }
-        final List<Purchase> pendingPurchases = Collections.EMPTY_LIST;
+        final List<Purchase> pendingPurchases = new ArrayList<>();
         for (Purchase purchase : purchases) {
           // we only want to try to consume PENDING items, in order to force cache-refresh for them
           if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
@@ -311,11 +310,13 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
               item.putString("title", skuDetails.getTitle());
               item.putString("description", skuDetails.getDescription());
               item.putString("introductoryPrice", skuDetails.getIntroductoryPrice());
+              item.putString("typeAndroid", skuDetails.getType());
+              item.putString("packageNameAndroid", skuDetails.zza());
+              item.putString("originalPriceAndroid", skuDetails.getOriginalPrice());
               item.putString("subscriptionPeriodAndroid", skuDetails.getSubscriptionPeriod());
               item.putString("freeTrialPeriodAndroid", skuDetails.getFreeTrialPeriod());
               item.putString("introductoryPriceCyclesAndroid", String.valueOf(skuDetails.getIntroductoryPriceCycles()));
               item.putString("introductoryPricePeriodAndroid", skuDetails.getIntroductoryPricePeriod());
-              // new
               item.putString("iconUrl", skuDetails.getIconUrl());
               item.putString("originalJson", skuDetails.getOriginalJson());
               BigDecimal originalPriceAmountMicros = BigDecimal.valueOf(skuDetails.getOriginalPriceAmountMicros());
@@ -357,6 +358,9 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
             item.putString("signatureAndroid", purchase.getSignature());
             item.putInt("purchaseStateAndroid", purchase.getPurchaseState());
             item.putBoolean("isAcknowledgedAndroid", purchase.isAcknowledged());
+            item.putString("packageNameAndroid", purchase.getPackageName());
+            item.putString("obfuscatedAccountIdAndroid", purchase.getAccountIdentifiers().getObfuscatedAccountId());
+            item.putString("obfuscatedProfileIdAndroid", purchase.getAccountIdentifiers().getObfuscatedProfileId());
 
             if (type.equals(BillingClient.SkuType.SUBS)) {
               item.putBoolean("autoRenewingAndroid", purchase.isAutoRenewing());
@@ -418,7 +422,10 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
     final String type,
     final String sku,
     final String oldSku,
+    final String purchaseToken,
     final Integer prorationMode,
+    final String obfuscatedAccountId,
+    final String obfuscatedProfileId,
     final Promise promise
   ) {
     final Activity activity = getCurrentActivity();
@@ -454,6 +461,18 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
           return;
         }
         builder.setSkuDetails(selectedSku);
+
+        if (oldSku != null && purchaseToken != null) {
+          builder.setOldSku(oldSku, purchaseToken);
+        }
+
+        if (obfuscatedAccountId != null) {
+          builder.setObfuscatedAccountId(obfuscatedAccountId);
+        }
+
+        if (obfuscatedProfileId != null) {
+          builder.setObfuscatedProfileId(obfuscatedProfileId);
+        }
 
         if (prorationMode != null && prorationMode != -1) {
           if (prorationMode == BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE) {
@@ -496,7 +515,7 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
                 AcknowledgePurchaseParams.newBuilder()
                         .setPurchaseToken(token)
                         .build();
-                        
+
         billingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
           @Override
           public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
@@ -574,6 +593,10 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
         item.putBoolean("autoRenewingAndroid", purchase.isAutoRenewing());
         item.putBoolean("isAcknowledgedAndroid", purchase.isAcknowledged());
         item.putInt("purchaseStateAndroid", purchase.getPurchaseState());
+        item.putString("packageNameAndroid", purchase.getPackageName());
+        item.putString("developerPayloadAndroid", purchase.getDeveloperPayload());
+        item.putString("obfuscatedAccountIdAndroid", purchase.getAccountIdentifiers().getObfuscatedAccountId());
+        item.putString("obfuscatedProfileIdAndroid", purchase.getAccountIdentifiers().getObfuscatedProfileId());
 
         promiseItem = new WritableNativeMap();
         promiseItem.merge(item);
@@ -631,5 +654,11 @@ public class RNIapModule extends ReactContextBaseJavaModule implements Purchases
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(eventName, params);
+  }
+
+  @ReactMethod
+  public void getInstallSource(final Promise promise) {
+    final String installSource = DoobooUtils.getInstance().getInstallSource(reactContext);
+    promise.resolve(installSource);
   }
 }

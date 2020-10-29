@@ -1,6 +1,6 @@
 {
   "name": "@curefit/react-native-iap",
-  "version": "4.6.1",
+  "version": "5.1.1",
   "description": "React Native In App Purchase Module.",
   "main": "index.js",
   "types": "index.d.ts",
