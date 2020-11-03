@@ -529,6 +529,7 @@ RCT_EXPORT_METHOD(getPendingTransactions:(RCTPromiseResolveBlock)resolve
     NSString* introductoryPricePaymentMode = @"";
     NSString* introductoryPriceNumberOfPeriods = @"";
     NSString* introductoryPriceSubscriptionPeriod = @"";
+    NSString* subscriptionGroupIdentifier = @"";
 
     NSString* currencyCode = @"";
     NSString* periodNumberIOS = @"0";
@@ -604,6 +605,10 @@ RCT_EXPORT_METHOD(getPendingTransactions:(RCTPromiseResolveBlock)resolve
         currencyCode = product.priceLocale.currencyCode;
     }
 
+    if (@available(iOS 12.0, *)) {
+        subscriptionGroupIdentifier = product.subscriptionGroupIdentifier;
+    }
+
     NSArray *discounts;
     #if __IPHONE_12_2
     if (@available(iOS 12.2, *)) {
@@ -625,6 +630,7 @@ RCT_EXPORT_METHOD(getPendingTransactions:(RCTPromiseResolveBlock)resolve
                          introductoryPricePaymentMode, @"introductoryPricePaymentModeIOS",
                          introductoryPriceNumberOfPeriods, @"introductoryPriceNumberOfPeriodsIOS",
                          introductoryPriceSubscriptionPeriod, @"introductoryPriceSubscriptionPeriodIOS",
+                         subscriptionGroupIdentifier, @"subscriptionGroupIdentifierIOS",
                          discounts, @"discounts",
                          nil
                          ];

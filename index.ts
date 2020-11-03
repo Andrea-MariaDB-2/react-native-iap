@@ -70,6 +70,7 @@ export interface Subscription extends Common {
   introductoryPricePaymentModeIOS?: string;
   introductoryPriceNumberOfPeriodsIOS?: string;
   introductoryPriceSubscriptionPeriodIOS?: string;
+  subscriptionGroupIdentifierIOS?: string;
 
   subscriptionPeriodNumberIOS?: string;
   subscriptionPeriodUnitIOS?: string;
