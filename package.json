@@ -1,6 +1,6 @@
 {
   "name": "@curefit/react-native-iap",
-  "version": "4.6.1",
+  "version": "5.1.1",
   "description": "React Native In App Purchase Module.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -14,7 +14,8 @@
     "test:typescript": "tsc --noEmit",
     "tsc:sync": "npx typesync",
     "tsc": "tsc",
-    "validate": "npm run lint && npm run test:typescript && npm run test:flow && npm run test"
+    "validate": "npm run lint && npm run test:typescript && npm run test:flow && npm run test",
+    "postinstall": "npm run tsc"
   },
   "repository": {
     "type": "git",
