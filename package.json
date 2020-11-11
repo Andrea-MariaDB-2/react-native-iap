@@ -15,7 +15,8 @@
     "tsc:sync": "npx typesync",
     "tsc": "tsc",
     "validate": "npm run lint && npm run test:typescript && npm run test:flow && npm run test",
-    "postinstall": "npm run tsc"
+    "prepublish": "yarn run build && yarn run lint",
+    "postversion": "git push origin master && git push origin master --tags && npm publish"
   },
   "repository": {
     "type": "git",
